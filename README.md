@@ -245,4 +245,4 @@ MIT License — see [LICENSE](LICENSE) for details.
 
 ---
 
-*Built with ❤️ for the AMD Developer Hackathon 2025*
+*Built with ❤️ for the AMD Developer Hackathon 2026*
