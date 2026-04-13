@@ -19,7 +19,7 @@
 | | |
 |---|---|
 | **Live App** | http://165.245.140.165:8000/ |
-| **Demo Video** | https://youtube.com/YOUR_VIDEO_LINK |
+| **Demo Video** | https://youtu.be/w_jquBRuLkA |
 | **API Docs** | https://YOUR_AMD_INSTANCE_IP/docs |
 
 ---
