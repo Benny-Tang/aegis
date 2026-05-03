@@ -1,4 +1,15 @@
-apes live maritime shipping intelligence, predicts disruptions using a hybrid ML forecasting model, and autonomously executes crisis response decisions — before humans can react.
+# 🛡️ Aegis — Autonomous Enterprise Crisis Management
+
+> **AMD Developer Hackathon 2026** | Track 1: AI Agents & Agentic Workflows
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110-green.svg)](https://fastapi.tiangolo.com)
+[![Groq](https://img.shields.io/badge/LLM-Groq%20LLaMA%203.3%2070B-orange.svg)](https://groq.com)
+[![AMD](https://img.shields.io/badge/GPU-AMD%20Instinct%20MI300X-red.svg)](https://amd.com)
+[![ROCm](https://img.shields.io/badge/ROCm-6.2-red.svg)](https://rocm.docs.amd.com)
+
+**Aegis** is a fully autonomous 7-agent AI system that monitors global supply chain risks in real time, scrapes live maritime shipping intelligence, predicts disruptions using a hybrid ML forecasting model, and autonomously executes crisis response decisions — before humans can react.
 
 > *"Aegis protects enterprises from global disruptions by turning real-time chaos into autonomous decisions."*
 
