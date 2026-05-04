@@ -20,7 +20,7 @@
 | | |
 |---|---|
 | **Live App** | http://165.245.129.107:8000 |
-| **Demo Video** | https://youtu.be/w_jquBRuLkA |
+| **Demo Video** | https://www.youtube.com/watch?v=EgC82DeOj6Y |
 | **API Docs** | http://165.245.129.107:8000/docs |
 | **GitHub** | https://github.com/Benny-Tang/aegis |
 
