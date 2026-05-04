@@ -19,9 +19,9 @@
 
 | | |
 |---|---|
-| **Live App** | http://YOUR_AMD_INSTANCE_IP:8000 |
+| **Live App** | http://165.245.129.107:8000 |
 | **Demo Video** | https://youtu.be/w_jquBRuLkA |
-| **API Docs** | http://YOUR_AMD_INSTANCE_IP:8000/docs |
+| **API Docs** | http://165.245.129.107:8000/docs |
 | **GitHub** | https://github.com/Benny-Tang/aegis |
 
 ---
