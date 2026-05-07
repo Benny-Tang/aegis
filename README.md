@@ -245,7 +245,8 @@ es.onmessage = (e) => {
 
 Aegis addresses a **$1.5 trillion annual problem** — global supply chain disruptions caused by geopolitical events, commodity shocks, and logistics failures.
 
-Targets logistics directors and supply chain VPs at $50M+ procurement companies. ROI after one prevented crisis per year at $2,000/month. Customers: maritime insurers, commodity traders, manufacturers with Hormuz exposure.
+Targets logistics directors and supply chain VPs at $50M+ procurement companies. ROI after one prevented crisis per year at $2,000/month. 
+Customers: maritime insurers, commodity traders, manufacturers with Hormuz exposure.
 
 COMPETITIVE EDGE: 
 Unlike Resilinc or Everstream using human analyst networks — Aegis is fully autonomous. No analysts. No waiting. 2-second response. Moat is speed, autonomy and live data.
