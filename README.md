@@ -134,7 +134,7 @@ cd /opt/aegis && gunicorn api.server:app \
     --daemon
 
 # 6. Open in browser
-http://YOUR_AMD_IP:8000
+http://165.245.129.107:8000
 ```
 
 ---
@@ -227,7 +227,7 @@ curl -X POST http://YOUR_IP:8000/api/crisis \
 
 ### Example — get live marine intelligence
 ```bash
-curl http://YOUR_IP:8000/api/marine
+curl http://165.245.129.107:8000/api/marine
 ```
 
 ### Example — SSE stream
@@ -244,6 +244,11 @@ es.onmessage = (e) => {
 ## 💡 Business Value
 
 Aegis addresses a **$1.5 trillion annual problem** — global supply chain disruptions caused by geopolitical events, commodity shocks, and logistics failures.
+
+Targets logistics directors and supply chain VPs at $50M+ procurement companies. ROI after one prevented crisis per year at $2,000/month. Customers: maritime insurers, commodity traders, manufacturers with Hormuz exposure.
+
+COMPETITIVE EDGE: 
+Unlike Resilinc or Everstream using human analyst networks — Aegis is fully autonomous. No analysts. No waiting. 2-second response. Moat is speed, autonomy and live data.
 
 **Key metrics from live demo (Strait of Hormuz crisis):**
 
