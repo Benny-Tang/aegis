@@ -63,7 +63,46 @@ Crisis Event Detected
         ▼
   Autonomous Response in ~2 seconds
   ($1.7M savings identified per crisis event)
+
 ```
+## 💰 Business Value
+
+### Market Opportunity
+
+| Metric | Value |
+|--------|-------|
+| **Total Addressable Market** | $1.5T annual supply chain losses |
+| **Global supply chain market** | $19.3T by 2028 |
+| **Target segment** | Logistics VPs + Supply Chain Directors at $50M+ procurement companies |
+
+### ROI Model
+
+| Item | Value |
+|------|-------|
+| Subscription price | $2,000/month |
+| Annual cost | $24,000/year |
+| 1 crisis prevented | $1.7M saved |
+| **ROI in year 1** | **70x** |
+
+Customers achieve positive ROI after preventing just **one partial supply chain disruption per year.**
+
+### Target Customers
+
+- 🚢 **Maritime insurance firms** — needing real-time vessel and route intelligence
+- 🛢️ **Commodity trading companies** — exposed to oil price volatility
+- 🏭 **Multinational manufacturers** — with Strait of Hormuz supply chain exposure
+- 📦 **Logistics VPs** — managing global freight and supplier networks
+- 🌐 **Procurement teams** — with $50M+ annual spend requiring proactive risk management
+
+### Competitive Differentiation
+
+| Company | Method | Response Time | Annual Cost |
+|---------|--------|---------------|-------------|
+| Resilinc | Human analyst network | Hours | $500K+/yr |
+| Everstream Analytics | Manual reports | Hours | $200K+/yr |
+| **Aegis ✅** | **Fully autonomous AI** | **2 seconds** | **$24K/yr** |
+
+Unlike Resilinc or Everstream which rely on human analyst networks delivering reports in hours — **Aegis is fully autonomous. No analysts. No waiting.** The competitive moat is speed, autonomy and live data — not data coverage alone.
 
 ---
 
@@ -238,19 +277,6 @@ es.onmessage = (e) => {
   console.log(msg.type, msg.agent, msg.data);
 };
 ```
-
----
-
-## 💡 Business Value
-
-Aegis addresses a **$1.5 trillion annual problem** — global supply chain disruptions caused by geopolitical events, commodity shocks, and logistics failures.
-
-Targets logistics directors and supply chain VPs at $50M+ procurement companies. ROI after one prevented crisis per year at $2,000/month. 
-
-Customers: maritime insurers, commodity traders, manufacturers with Hormuz exposure.
-
-COMPETITIVE EDGE: 
-Unlike Resilinc or Everstream using human analyst networks — Aegis is fully autonomous. No analysts. No waiting. 2-second response. Moat is speed, autonomy and live data.
 
 **Key metrics from live demo (Strait of Hormuz crisis):**
 
