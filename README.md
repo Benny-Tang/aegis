@@ -1,354 +1,108 @@
-# 🛡️ Aegis — Autonomous Enterprise Crisis Management
+# Aegis — Autonomous Enterprise Crisis Management
+**Shield Against Chaos**
 
-> **AMD Developer Hackathon 2026** | Track 1: AI Agents & Agentic Workflows
+Aegis is a 7-agent autonomous pipeline that monitors global shipping
+intelligence and commodity markets in real time, forecasts supply-chain
+disruption (e.g. a Strait of Hormuz closure), simulates response scenarios,
+and recommends ranked, cost-quantified actions — without a human analyst
+in the loop.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](https://python.org)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110-green.svg)](https://fastapi.tiangolo.com)
-[![Groq](https://img.shields.io/badge/LLM-Groq%20LLaMA%203.3%2070B-orange.svg)](https://groq.com)
-[![AMD](https://img.shields.io/badge/GPU-AMD%20Instinct%20MI300X-red.svg)](https://amd.com)
-[![ROCm](https://img.shields.io/badge/ROCm-6.2-red.svg)](https://rocm.docs.amd.com)
+Built for the AMD Developer Cloud hackathon track (2026), running on
+AMD Instinct MI300X GPUs.
 
-**Aegis** is a fully autonomous 7-agent AI system that monitors global supply chain risks in real time, scrapes live maritime shipping intelligence, predicts disruptions using a hybrid ML forecasting model, and autonomously executes crisis response decisions — before humans can react.
-
-> *"Aegis protects enterprises from global disruptions by turning real-time chaos into autonomous decisions."*
-
----
-
-## 🎬 Full Demo
-
-| | |
-|---|---|
-| **Demo Video** | https://www.youtube.com/watch?v=EgC82DeOj6Y |
-| **API Docs** | http://165.245.129.107:8000/docs |
-| **GitHub** | https://github.com/Benny-Tang/aegis |
-
----
-
-## 🌍 Real-World Relevance
-
-Aegis was built as the **Strait of Hormuz crisis unfolded in real time** (2026). The exact scenario we demo — oil price spike, shipping disruption, geopolitical escalation — is actively happening right now. Our live MarineTraffic scraper pulls **real headlines** like:
-
-- *"Trump's Hormuz Blockade Has Deepened A Historic Shipping Crisis"*
-- *"Strait of Hormuz Remains Near-Empty With Just A Few Iran Ships Moving"*
-- *"Iran War Leaves Seafarers Stranded In The Gulf"*
-- *"US Says Navy Intercepted Iran-Linked Vessel in Arabian Sea"*
-
-**Aegis responds to this real crisis autonomously in 2 seconds.**
-
----
-
-## 🧠 How It Works
-
-When a crisis event is detected, Aegis activates a chain of 7 specialized AI agents that observe, think, predict, simulate, decide, alert and act — autonomously.
+## Architecture
 
 ```
-Crisis Event Detected
-        │
-        ▼
-┌─────────────────────────────────────────────────────┐
-│                AEGIS 7-AGENT PIPELINE               │
-│                                                     │
-│  📡 Signal Agent      → Detects anomalies +         │
-│                          scrapes live MarineTraffic  │
-│  🧠 Intelligence Agent → Interprets risk context    │
-│  📈 Forecast Agent    → ARIMA + XGBoost prediction  │
-│  🧩 Simulation Agent  → Runs what-if scenarios      │
-│  ⚡ Decision Agent    → Ranks action plan           │
-│  🚨 Alert Agent       → Dispatches notifications    │
-│  🔄 Execution Agent   → Triggers workflows          │
-└─────────────────────────────────────────────────────┘
-        │
-        ▼
-  Autonomous Response in ~2 seconds
-  ($1.7M savings identified per crisis event)
-
-```
-## 💰 Business Value
-
-### Market Opportunity
-
-| Metric | Value |
-|--------|-------|
-| **Total Addressable Market** | $1.5T annual supply chain losses |
-| **Global supply chain market** | $19.3T by 2028 |
-| **Target segment** | Logistics VPs + Supply Chain Directors at $50M+ procurement companies |
-
-### ROI Model
-
-| Item | Value |
-|------|-------|
-| Subscription price | $2,000/month |
-| Annual cost | $24,000/year |
-| 1 crisis prevented | $1.7M saved |
-| **ROI in year 1** | **70x** |
-
-Customers achieve positive ROI after preventing just **one partial supply chain disruption per year.**
-
-### Target Customers
-
-- 🚢 **Maritime insurance firms** — needing real-time vessel and route intelligence
-- 🛢️ **Commodity trading companies** — exposed to oil price volatility
-- 🏭 **Multinational manufacturers** — with Strait of Hormuz supply chain exposure
-- 📦 **Logistics VPs** — managing global freight and supplier networks
-- 🌐 **Procurement teams** — with $50M+ annual spend requiring proactive risk management
-
-### Competitive Differentiation
-
-| Company | Method | Response Time | Annual Cost |
-|---------|--------|---------------|-------------|
-| Resilinc | Human analyst network | Hours | $500K+/yr |
-| Everstream Analytics | Manual reports | Hours | $200K+/yr |
-| **Aegis ✅** | **Fully autonomous AI** | **2 seconds** | **$24K/yr** |
-
-Unlike Resilinc or Everstream which rely on human analyst networks delivering reports in hours — **Aegis is fully autonomous. No analysts. No waiting.** The competitive moat is speed, autonomy and live data — not data coverage alone.
-
----
-
-## 🚢 Live MarineTraffic Intelligence
-
-Aegis scrapes **real-time shipping intelligence** from multiple maritime sources on every crisis trigger:
-
-| Source | Type | Status |
-|--------|------|--------|
-| gCaptain | Maritime news | ✅ Live |
-| TradeWinds | Shipping intelligence | ✅ Live |
-| MarineTraffic Blog | Vessel tracking news | ⚠️ Partial |
-| Reuters | Geopolitical news | ⚠️ Auth required |
-
-The Signal Agent automatically enriches every crisis analysis with live shipping alerts — tanker reroutes, port closures, war risk insurance changes, navy intercepts.
-
-**Tested live — 8 real shipping intelligence items scraped in a single run with 95% CRITICAL confidence classification by Groq LLaMA 3.3 70B.**
-
----
-
-## ⚙️ Tech Stack
-
-| Layer | Technology |
-|-------|-----------|
-| **LLM** | Groq — LLaMA 3.3 70B Versatile |
-| **ML Forecast** | XGBoost 2.0 + ARIMA(2,1,2) hybrid ensemble |
-| **Marine Intelligence** | MarineTraffic + gCaptain + TradeWinds scraper |
-| **GPU Acceleration** | AMD Instinct MI300X via ROCm 6.2 |
-| **API** | FastAPI + Uvicorn + Gunicorn (4 workers) |
-| **Streaming** | Server-Sent Events (SSE) — live agent updates |
-| **Deployment** | AMD Developer Cloud (amd.digitalocean.com) |
-| **Frontend** | Vanilla JS + CSS — dark terminal aesthetic |
-| **Auto-Monitor** | Autonomous scan every 5 minutes 24/7 |
-
----
-
-## 🚀 Quick Start
-
-### Option A — Google Colab (easiest)
-1. Open `Aegis_Hackathon.ipynb` in Google Colab
-2. Fill in your `GROQ_API_KEY` and `NGROK_TOKEN` in Cell 1
-3. Click **Runtime → Run All**
-4. Copy the ngrok URL printed at the bottom
-
-### Option B — AMD Developer Cloud (production)
-```bash
-# 1. SSH into your AMD MI300X instance
-ssh -i your-key.ppk root@YOUR_AMD_IP
-
-# 2. Set your Groq API key
-export GROQ_API_KEY=gsk_YOUR_KEY_HERE
-
-# 3. Install packages
-pip3 install fastapi "uvicorn[standard]" groq httpx pydantic \
-    numpy pandas scikit-learn xgboost statsmodels \
-    python-multipart aiofiles gunicorn \
-    requests beautifulsoup4 lxml
-
-# 4. Create project folders
-mkdir -p /opt/aegis/agents /opt/aegis/models /opt/aegis/api /opt/aegis/logs
-
-# 5. Upload project files and start
-cd /opt/aegis && gunicorn api.server:app \
-    --workers 4 \
-    --worker-class uvicorn.workers.UvicornWorker \
-    --bind 0.0.0.0:8000 \
-    --timeout 120 \
-    --daemon
-
-# 6. Open in browser
-http://165.245.129.107:8000
+[MarineTraffic + Lloyd's List]        [Oil price / market data]
+              |                                |
+              +----------------+---------------+
+                               |
+                        [Signal Agent]        <- Agent 1: Watcher
+                               |
+                    [Intelligence Agent]      <- Agent 2: Interpreter
+                               |
+                      [Forecast Agent]        <- Agent 3: ARIMA + XGBoost
+                               |
+                     [Simulation Agent]       <- Agent 4: Strategist (3 scenarios)
+                               |
+                      [Decision Agent]        <- Agent 5: Brain (ranked actions)
+                               |
+                       [Alert Agent]          <- Agent 6: Communicator
+                               |
+                     [Execution Agent]        <- Agent 7: Operator (ERP workflows)
+                               |
+                      [FastAPI + SSE]
+                               |
+                       [Dashboard UI]
 ```
 
----
+## Tech stack
 
-## 📁 Project Structure
+| Layer | Technology | Purpose |
+|---|---|---|
+| LLM | Groq (`openai/gpt-oss-120b`) | Reasoning for all 7 agents |
+| Forecasting | ARIMA(2,1,2) + XGBoost | 14-day oil price + delay prediction |
+| GPU | AMD Instinct MI300X | Model inference / forecasting acceleration |
+| Backend | FastAPI + Server-Sent Events | Real-time agent streaming |
+| Marine intel | MarineTraffic + Lloyd's List scrape | Live shipping disruption signals |
+| Frontend | Single-page dashboard (vanilla JS) | Live agent monitor, crisis injection |
+
+## Project structure
 
 ```
-aegis/
+aegis-amd/
 ├── agents/
-│   └── swarm.py              # 7 Groq-powered autonomous agents
-│                             # + MarineTraffic live scraper
-├── models/
-│   └── forecaster.py         # ARIMA + XGBoost hybrid ML model
+│   └── swarm.py           # 7-agent pipeline logic + 4-source marine scraper
+│                           #   (MarineTraffic, gCaptain, TradeWinds, Reuters)
 ├── api/
-│   └── server.py             # FastAPI + SSE streaming server
-├── frontend.html             # Live dashboard — dark terminal UI
-├── Aegis_Hackathon.ipynb     # Google Colab notebook
-├── requirements.txt          # Python dependencies
-└── LICENSE                   # MIT License
+│   └── server.py          # FastAPI app: /health, /api/marine, /api/crisis,
+│                           #   /api/stream (SSE), /api/status
+├── models/
+│   └── forecaster.py      # ARIMA(2,1,2) + XGBoost hybrid forecasting model
+├── frontend.html           # Dashboard UI: live agents, marine feed,
+│                           #   business value panel, GTM strategy panel
+├── requirements.txt
+└── README.md
 ```
 
----
-
-## 🤖 The 7 Agents
-
-### 1. 📡 Signal Agent (Watcher)
-Monitors real-time feeds — oil prices, shipping routes, geopolitical news. **Automatically scrapes live MarineTraffic, gCaptain and TradeWinds shipping intelligence on every trigger.** Classifies anomalies by severity (LOW → CRITICAL) with confidence score.
-
-### 2. 🧠 Intelligence Agent (Interpreter)
-Uses LLaMA 3.3 70B to convert raw signals and marine data into structured risk context. Identifies root causes, affected regions, and escalation probability.
-
-### 3. 📈 Forecast Agent (Predictor)
-Runs a **hybrid ARIMA(2,1,2) + XGBoost ensemble** model to predict oil prices, logistics delays, and cost impact over a 14-day horizon. XGBoost runs on AMD MI300X GPU via ROCm for accelerated inference.
-
-### 4. 🧩 Simulation Agent (Strategist)
-Generates 3 weighted what-if scenarios (best case, base case, worst case) with probability weights and cost impact estimates for each.
-
-### 5. ⚡ Decision Agent (Brain)
-Synthesizes all upstream intelligence into a ranked action plan with dollar savings estimates, implementation timelines, and risk ratings.
-
-### 6. 🚨 Alert Agent (Communicator)
-Formats and dispatches real-time notifications to Slack, email, and live dashboard. Generates executive summaries for C-suite stakeholders.
-
-### 7. 🔄 Execution Agent (Operator)
-Triggers downstream enterprise workflows autonomously — ERP supplier switches, procurement API calls, logistics rerouting.
-
----
-
-## 📊 ML Forecasting Model
-
-**Why ARIMA + XGBoost hybrid?**
-
-| Component | Role | Weight (crisis) |
-|-----------|------|-----------------|
-| ARIMA(2,1,2) | Linear trend + autocorrelation | 30% |
-| XGBoost (ROCm GPU) | Non-linear geopolitical signals | 70% |
-
-**Features engineered:** lag-1, lag-3, lag-7, lag-14, rolling mean/std (7 & 14 day), 3-day % change, day-of-week
-
-**AMD MI300X advantage:** XGBoost tree building runs 8–15x faster on MI300X vs CPU via ROCm CUDA compatibility layer.
-
----
-
-## 🔌 API Reference
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/` | Live dashboard |
-| `GET` | `/health` | System health check |
-| `GET` | `/docs` | Swagger UI |
-| `POST` | `/api/crisis` | Full 7-agent pipeline (JSON) |
-| `GET` | `/api/stream` | SSE live agent stream |
-| `POST` | `/api/forecast` | ML forecast only |
-| `GET` | `/api/marine` | Live MarineTraffic shipping feed |
-| `GET` | `/api/status` | Live system status |
-
-### Example — trigger crisis
-```bash
-curl -X POST http://YOUR_IP:8000/api/crisis \
-  -H "Content-Type: application/json" \
-  -d '{
-    "oil_price_change_pct": 18.0,
-    "shipping_disruption": "Strait of Hormuz — 3 tankers rerouted",
-    "news_headline": "Regional conflict escalation near Persian Gulf",
-    "severity": "HIGH",
-    "disruption_factor": 0.7,
-    "horizon_days": 14
-  }'
-```
-
-### Example — get live marine intelligence
-```bash
-curl http://165.245.129.107:8000/api/marine
-```
-
-### Example — SSE stream
-```javascript
-const es = new EventSource('http://YOUR_IP:8000/api/stream?oil_change=18&disruption=0.7');
-es.onmessage = (e) => {
-  const msg = JSON.parse(e.data);
-  console.log(msg.type, msg.agent, msg.data);
-};
-```
-
-**Key metrics from live demo (Strait of Hormuz crisis):**
+## Business case (from the original hackathon pitch)
 
 | Metric | Value |
-|--------|-------|
-| Pipeline response time | **2 seconds** |
-| Agents active simultaneously | **7 / 7** |
-| Savings identified | **$1.7M per crisis** |
-| Logistics delay risk detected | **45.8%** |
-| Oil price forecast accuracy | ARIMA+XGBoost hybrid |
-| Marine intelligence items | **8 live headlines** |
-| Auto-monitoring interval | **Every 5 minutes** |
-| Concurrent viewers supported | **Unlimited** |
+|---|---|
+| Total addressable market | $1.5T |
+| Supply chain market (2028) | $19.3T |
+| Estimated ROI, year 1 | 70x |
+| Savings per crisis prevented | $1.7M |
+| Annual subscription (proposed) | $24K/yr |
+| Response time vs. human analysts | 2 sec vs. 4–8 hours |
 
----
+Target segments: maritime insurance underwriters, commodity traders,
+manufacturers with $50M+ procurement exposure, and sovereign wealth funds
+managing oil-revenue exposure.
 
-## 🔥 Auto-Monitoring — 24/7 Autonomous Operation
-
-Aegis doesn't wait for humans. It monitors global signals **every 5 minutes autonomously**:
-
-- Fetches live oil price from status API
-- Detects anomalies automatically
-- Triggers full 7-agent pipeline when risk threshold exceeded
-- Dashboard shows live countdown timer to next scan
-- Zero human intervention required in production mode
-
----
-
-## 🏗️ AMD Developer Cloud Deployment
+## Running locally
 
 ```bash
-# Verify MI300X is available
-rocm-smi
-
-# Check server health
-curl http://localhost:8000/health
-
-# View live marine intelligence
-curl http://localhost:8000/api/marine
-
-# Monitor logs
-tail -f /opt/aegis/logs/error.log
+pip install -r requirements.txt
+export GROQ_API_KEY=your_key_here
+uvicorn api.server:app --host 0.0.0.0 --port 8000 --reload
 ```
 
----
+Open `http://localhost:8000` for the live dashboard. Click **Inject Crisis
+Scenario** to trigger the full 7-agent pipeline against a simulated Strait
+of Hormuz disruption event.
 
-## 📋 Environment Variables
+## API endpoints
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `GROQ_API_KEY` | ✅ Yes | Get free at console.groq.com |
-| `NGROK_TOKEN` | Colab only | Get free at ngrok.com |
+| Endpoint | Method | Description |
+|---|---|---|
+| `/health` | GET | System status, model, platform info |
+| `/api/marine` | GET | Live MarineTraffic + Lloyd's List shipping feed |
+| `/api/forecast` | POST | Run the forecasting model standalone |
+| `/api/crisis` | POST | Run the full 7-agent pipeline synchronously |
+| `/api/stream` | GET | Run the pipeline via Server-Sent Events (used by the dashboard) |
+| `/api/status` | GET | Live oil price + system status snapshot |
 
----
+## License
 
-## 🙏 Acknowledgements
-
-- **AMD** — MI300X GPU access via AMD Developer Cloud
-- **Groq** — Ultra-fast LLaMA 3.3 70B inference
-- **lablab.ai** — Hackathon platform and community
-- **gCaptain** — Live maritime news intelligence
-- **TradeWinds** — Live shipping intelligence
-- **FastAPI** — Production API framework
-- **XGBoost** — GPU-accelerated gradient boosting
-
----
-
-## 📄 License
-
-MIT License — see [LICENSE](LICENSE) for details.
-
----
-
-*Built with ❤️ for the AMD Developer Hackathon 2026*
-
-*🛡️ SHIELD AGAINST CHAOS*
+MIT
