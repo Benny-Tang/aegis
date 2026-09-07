@@ -1,10 +1,10 @@
 import json
+import logging
 import os
 import random
 import time
-import traceback
-from datetime import datetime
-from typing import AsyncGenerator
+from datetime import datetime, timezone
+from typing import Any, AsyncGenerator
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,17 +13,23 @@ from pydantic import BaseModel, Field
 
 from agents.swarm import (
     MODEL,
-    signal_agent,
-    intelligence_agent,
-    forecast_agent,
-    simulation_agent,
-    decision_agent,
     alert_agent,
+    decision_agent,
     execution_agent,
+    forecast_agent,
+    intelligence_agent,
     run_aegis_pipeline,
     scrape_marine_traffic,
+    signal_agent,
+    simulation_agent,
 )
 from models.forecaster import get_forecaster
+
+logging.basicConfig(
+    level=os.environ.get("LOG_LEVEL", "INFO"),
+    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+)
+logger = logging.getLogger("aegis")
 
 app = FastAPI(title="Aegis", version="2.0.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
@@ -35,8 +41,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 async def timing(request: Request, call_next):
     start = time.time()
     response = await call_next(request)
-    response.headers["X-Response-Time"] = f"{round((time.time() - start) * 1000, 1)}ms"
+    elapsed_ms = round((time.time() - start) * 1000, 1)
+    response.headers["X-Response-Time"] = f"{elapsed_ms}ms"
     response.headers["X-Powered-By"] = "AMD Instinct MI300X"
+    logger.info("%s %s -> %s (%sms)", request.method, request.url.path, response.status_code, elapsed_ms)
     return response
 
 
@@ -55,59 +63,111 @@ class ForecastRequest(BaseModel):
     horizon_days: int = Field(default=14, ge=1, le=90)
 
 
+# --- Typed response models ---
+
+class HealthResponse(BaseModel):
+    status: str
+    system: str
+    version: str
+    timestamp: str
+    agents: int
+    platform: str
+    model: str
+    forecast: str
+
+
+class MarineResponse(BaseModel):
+    success: bool
+    data: dict[str, Any]
+
+
+class ForecastResponse(BaseModel):
+    success: bool
+    data: dict[str, Any]
+
+
+class CrisisResponse(BaseModel):
+    success: bool
+    timestamp: str
+    data: dict[str, Any]
+
+
+class StatusResponse(BaseModel):
+    agents_online: int
+    platform: str
+    oil_price: float
+    risk_level: str
+    groq_model: str
+    forecast_model: str
+    tam: str
+    roi: str
+
+
+def _safe_error(exc: Exception, context: str) -> HTTPException:
+    """
+    Logs the full exception server-side (with traceback) but returns only a
+    generic, non-leaking message to the client. Previously, /api/crisis
+    returned traceback.format_exc() directly in the HTTP response body,
+    which can expose internal file paths, library versions, and other
+    implementation details to callers.
+    """
+    logger.exception("Error in %s: %s", context, exc)
+    return HTTPException(status_code=500, detail=f"Internal error in {context}. See server logs for details.")
+
+
 @app.on_event("startup")
 async def startup():
-    print("Aegis starting on AMD Developer Cloud...")
+    logger.info("Aegis starting on AMD Developer Cloud...")
     try:
         get_forecaster()
-        print("Forecaster ready")
+        logger.info("Forecaster ready")
     except Exception as e:
-        print(f"Forecaster warning: {e}")
+        logger.warning("Forecaster initialization warning: %s", e)
 
 
-@app.get("/health")
+@app.get("/health", response_model=HealthResponse)
 async def health():
-    return {
-        "status": "online",
-        "system": "Aegis",
-        "version": "2.0.0",
-        "timestamp": datetime.utcnow().isoformat(),
-        "agents": 7,
-        "platform": "AMD Developer Cloud",
-        "model": MODEL,
-        "forecast": "ARIMA(2,1,2) + XGBoost hybrid",
-    }
+    return HealthResponse(
+        status="online",
+        system="Aegis",
+        version="2.0.0",
+        timestamp=datetime.now(timezone.utc).isoformat(),
+        agents=7,
+        platform="AMD Developer Cloud",
+        model=MODEL,
+        forecast="ARIMA(2,1,2) + XGBoost hybrid",
+    )
 
 
-@app.get("/api/marine")
+@app.get("/api/marine", response_model=MarineResponse)
 async def marine_feed():
     """Live MarineTraffic shipping news feed."""
     try:
         data = scrape_marine_traffic()
-        return {"success": True, "data": data}
+        return MarineResponse(success=True, data=data)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise _safe_error(e, "marine_feed")
 
 
-@app.post("/api/forecast")
+@app.post("/api/forecast", response_model=ForecastResponse)
 async def forecast_only(req: ForecastRequest):
     try:
         fc = get_forecaster()
         result = fc.forecast(req.horizon_days, req.oil_shock_pct, req.disruption_factor)
-        return {"success": True, "data": result}
+        return ForecastResponse(success=True, data=result)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise _safe_error(e, "forecast_only")
 
 
-@app.post("/api/crisis")
+@app.post("/api/crisis", response_model=CrisisResponse)
 async def run_crisis(event: CrisisEvent):
     try:
         fc = get_forecaster()
         forecast_data = fc.forecast(event.horizon_days, event.oil_price_change_pct, event.disruption_factor)
         results = await run_aegis_pipeline(event.model_dump(), forecast_data)
-        return {"success": True, "timestamp": datetime.utcnow().isoformat(), "data": results}
+        return CrisisResponse(success=True, timestamp=datetime.now(timezone.utc).isoformat(), data=results)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"{e}\n{traceback.format_exc()}")
+        raise _safe_error(e, "run_crisis")
 
 
 @app.get("/api/stream")
@@ -165,29 +225,29 @@ async def stream_crisis(oil_change: float = 18.0, disruption: float = 0.7, sever
                 "threat": dec.get("threat_level", ""),
             })
         except Exception as e:
-            yield sse({"type": "error", "message": str(e)})
+            logger.exception("Error in stream_crisis pipeline: %s", e)
+            yield sse({"type": "error", "message": "Pipeline error â€” see server logs for details."})
 
     return StreamingResponse(
         gen(), media_type="text/event-stream", headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"}
     )
 
 
-@app.get("/api/status")
+@app.get("/api/status", response_model=StatusResponse)
 async def status():
-    return {
-        "agents_online": 7,
-        "platform": "AMD Developer Cloud",
-        "oil_price": round(82 + random.uniform(-2, 2), 2),
-        "risk_level": "LOW",
-        "groq_model": MODEL,
-        "forecast_model": "ARIMA(2,1,2)+XGBoost",
-        "tam": "$1.5T",
-        "roi": "70x",
-    }
+    return StatusResponse(
+        agents_online=7,
+        platform="AMD Developer Cloud",
+        oil_price=round(82 + random.uniform(-2, 2), 2),
+        risk_level="LOW",
+        groq_model=MODEL,
+        forecast_model="ARIMA(2,1,2)+XGBoost",
+        tam="$1.5T",
+        roi="70x",
+    )
 
 
 @app.get("/", response_class=HTMLResponse)
 async def index():
     with open(os.path.join(BASE_DIR, "frontend.html")) as f:
         return f.read()
-
