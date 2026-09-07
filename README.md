@@ -56,14 +56,36 @@ aegis-amd/
 │                           #   (MarineTraffic, gCaptain, TradeWinds, Reuters)
 ├── api/
 │   └── server.py          # FastAPI app: /health, /api/marine, /api/crisis,
-│                           #   /api/stream (SSE), /api/status
+│                           #   /api/stream (SSE), /api/status — typed
+│                           #   Pydantic responses, structured logging
 ├── models/
 │   └── forecaster.py      # ARIMA(2,1,2) + XGBoost hybrid forecasting model
+├── tests/
+│   ├── test_forecaster.py # Forecast horizon, bounds, crisis-shock behavior
+│   └── test_server.py     # Health, forecast, status, marine endpoint tests
+├── .github/workflows/ci.yml  # Lint (ruff) + test (pytest) on every push/PR
 ├── frontend.html           # Dashboard UI: live agents, marine feed,
 │                           #   business value panel, GTM strategy panel
 ├── requirements.txt
+├── requirements-dev.txt    # pytest, pytest-asyncio, httpx, ruff
+├── requirements-lock.txt   # Pinned versions from a clean install
+├── ruff.toml
+├── .env.example
+├── CHANGELOG.md
+├── CONTRIBUTING.md
 └── README.md
 ```
+
+## Testing & CI
+
+```bash
+pip install -r requirements.txt -r requirements-dev.txt
+pytest -q
+ruff check .
+```
+
+Both run automatically via GitHub Actions (`.github/workflows/ci.yml`) on
+every push and pull request. See `CONTRIBUTING.md` for setup details.
 
 ## Business case (from the original hackathon pitch)
 
@@ -106,3 +128,4 @@ of Hormuz disruption event.
 ## License
 
 MIT
+
