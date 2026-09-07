@@ -13,8 +13,8 @@ warnings.filterwarnings("ignore")
 
 try:
     import xgboost as xgb
-    from statsmodels.tsa.arima.model import ARIMA
     from sklearn.preprocessing import StandardScaler
+    from statsmodels.tsa.arima.model import ARIMA
     HAS_MODELS = True
 except ImportError:
     HAS_MODELS = False
@@ -40,13 +40,13 @@ def _gen_history(n=120, base=82.0):
     """Synthetic oil-price history used to seed the model when no real
     price feed is wired in. Replace with a live price feed for production use."""
     np.random.seed(42)
-    dates = [datetime.today() - timedelta(days=n - i) for i in range(n)]
+    dates = pd.date_range(end=datetime.today(), periods=n, freq="D")
     prices = [base]
     for _ in range(n - 1):
         shock = np.random.normal(0, 1.2)
         drift = 0.05 * (base - prices[-1])
         prices.append(max(prices[-1] + drift + shock, 40))
-    return pd.DataFrame({"price": prices}, index=pd.to_datetime(dates))
+    return pd.DataFrame({"price": prices}, index=dates)
 
 
 def _features(df):
@@ -146,8 +146,8 @@ class AegisForecaster:
             "gpu_accelerated": self.gpu,
             "device": "GPU (CUDA)" if self.gpu else "CPU",
             "forecast": [
-                {"date": d.strftime("%Y-%m-%d"), "price": p, "lower": l, "upper": u}
-                for d, p, l, u in zip(dates, prices, lower, upper)
+                {"date": d.strftime("%Y-%m-%d"), "price": p, "lower": lo, "upper": u}
+                for d, p, lo, u in zip(dates, prices, lower, upper)
             ],
             "summary": {
                 "final_price": fp,
