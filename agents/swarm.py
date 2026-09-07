@@ -3,10 +3,11 @@ Aegis - Autonomous Enterprise Crisis Management
 7-agent swarm pipeline (Signal -> Intelligence -> Forecast -> Simulation
 -> Decision -> Alert -> Execution), backed by Groq inference.
 """
+import datetime
 import json
 import os
 import re
-import datetime
+
 import requests
 from bs4 import BeautifulSoup
 from groq import AsyncGroq
